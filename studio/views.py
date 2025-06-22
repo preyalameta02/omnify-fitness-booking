@@ -42,9 +42,20 @@ class BookingListView(generics.ListAPIView):
     """
     serializer_class = BookingSerializer
 
-    def get_queryset(self):
-        email = self.request.query_params.get('email')
-        if email:
-            bookings = Booking.objects.filter(client_email=email).order_by('-booked_at')
-            return bookings
-        return Booking.objects.none()  # Return an empty queryset if no email is provided
+    def get(self, request, *args, **kwargs):
+        email = request.query_params.get('email')
+        if not email:
+            return Response(
+                {"error": "Email parameter is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        bookings = Booking.objects.filter(client_email=email).order_by('-booked_at')
+        if not bookings.exists():
+            return Response(
+                {"error": f"No bookings found for email: {email}"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = self.get_serializer(bookings, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,7 +1,7 @@
 
 ---
 
-# 🧪 Omnify Fitness Booking API
+# 🧪 Fitness Studio Booking API
 
 A simple REST API to manage class bookings for a fitness studio. Built with **Django** and **Django REST Framework (DRF)**.
 
@@ -54,6 +54,7 @@ pip install -r requirements.txt
 ### 4️⃣ Run migrations
 
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
@@ -63,9 +64,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 6️⃣ Seed initial data (optional)
-
-You can run the provided seed script to insert sample classes:
+### 6️⃣ Seed initial data
 
 ```bash
 python studio/seed.py
@@ -90,6 +89,12 @@ API will be available at:
 
 ```bash
 GET /classes/
+```
+
+**Curl Example:**
+
+```bash
+curl --location 'http://localhost:8000/classes'
 ```
 
 **Sample Response:**
@@ -119,10 +124,22 @@ POST /book/
 Content-Type: application/json
 
 {
-  "fitness_class": 6,
+  "fitness_class": 5,
   "client_name": "Preyal",
-  "client_email": "preyal@gmail.com"
+  "client_email": "preyal@example.com"
 }
+```
+
+**Curl Example:**
+
+```bash
+curl --location 'http://localhost:8000/book/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "fitness_class": 5,
+    "client_name": "Test User",
+    "client_email": "test@example.com"
+}'
 ```
 
 **Responses:**
@@ -138,7 +155,13 @@ Content-Type: application/json
 **Request:**
 
 ```bash
-GET /bookings/?email=preyal@gmail.com
+GET /bookings/?email=test@example.com
+```
+
+**Curl Example:**
+
+```bash
+curl --location 'http://localhost:8080/bookings?email=test%40example.com'
 ```
 
 **Sample Response:**
@@ -147,9 +170,9 @@ GET /bookings/?email=preyal@gmail.com
 [
   {
     "id": 1,
-    "fitness_class": 1,
-    "client_name": "Preyal",
-    "client_email": "preyal@gmail.com",
+    "fitness_class": 5,
+    "client_name": "Test User",
+    "client_email": "test@example.com",
     "booked_at": "2025-06-21T12:05:01.123456Z"
   }
 ]
