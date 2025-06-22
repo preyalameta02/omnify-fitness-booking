@@ -33,8 +33,8 @@ A simple REST API to manage class bookings for a fitness studio. Built with **Dj
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd fitness_booking
+git clone https://github.com/preyalameta02/omnify-fitness-booking.git
+cd omnify-fitness-booking
 ```
 
 ### 2️⃣ Create virtual environment & activate
@@ -161,7 +161,7 @@ GET /bookings/?email=test@example.com
 **Curl Example:**
 
 ```bash
-curl --location 'http://localhost:8080/bookings?email=test%40example.com'
+curl --location 'http://localhost:8000/bookings?email=test%40example.com'
 ```
 
 **Sample Response:**
